@@ -52,7 +52,7 @@ class App extends Component {
         </h1>
 
         <SearchBar onFormSubmit={this.onSearchTermSubmit} />
-        {this.state.error && <h2 style={{ color: "red", textAlign: "center" }}>Error : {this.state.error} <br />There is a quota limit per day for using Youtube API service <br />and many recruiters are executing this app.<br /><br />
+        {this.state.error && <h2 style={{ color: "red", textAlign: "center" }}>[Error] <br />There is a quota limit per day for using Youtube API service <br />and many recruiters are executing this app.<br /><br />
           *****It renews on 12:00AM every night!!!***** </h2>}
         <div className="ui grid">
           <div className="ui row">
