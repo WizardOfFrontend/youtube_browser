@@ -8,22 +8,34 @@ import './App.css';
 class App extends Component {
   state = {
     videos: [],
-    selectedVideo: null
+    selectedVideo: null,
+    error: ""
   };
 
   componentDidMount() {
     this.onSearchTermSubmit('Frozen 2')
   }
+
   onSearchTermSubmit = async searchTerm => {
-    const response = await Youtube.get('/search', {
-      params: {
-        q: searchTerm
-      }
-    });
-    this.setState({
-      videos: response.data.items,
-      selectedVideo: response.data.items[0]
-    });
+    let response = {}
+    try {
+      response = await Youtube.get('/search', {
+        params: {
+          q: searchTerm
+        }
+      })
+    } catch (err) {
+      this.setState({
+        error: err.message
+      })
+    }
+
+    if (this.items) {
+      this.setState({
+        videos: response.data.items,
+        selectedVideo: response.data.items[0]
+      });
+    }
   }
 
   onVideoSelect = video => {
@@ -38,7 +50,10 @@ class App extends Component {
           <i className="youtube red icon"></i>
           Toby's Youtube Browser
         </h1>
+
         <SearchBar onFormSubmit={this.onSearchTermSubmit} />
+        {this.state.error && <h2 style={{ color: "red", textAlign: "center" }}>Error : {this.state.error} <br />There is a quota limit per day for using Youtube API service <br />and many recruiters are executing this app.<br /><br />
+          *****It renews on 12:00AM every night!!!***** </h2>}
         <div className="ui grid">
           <div className="ui row">
             <div className="eleven wide column">
